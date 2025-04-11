@@ -4,6 +4,6 @@ using MySql.Data.MySqlClient;
 
 var db = new DatabaseConnection("sem3", "root", "root");
 
-var table = db.GetTableData("test");
+var table = db.RunSelectQuery($"SELECT * FROM {db.databaseName}.test;");
 
 Console.WriteLine(table.Rows.Count);

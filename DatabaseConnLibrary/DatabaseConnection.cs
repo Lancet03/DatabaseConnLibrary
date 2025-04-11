@@ -6,7 +6,6 @@ namespace DatabaseConnLibrary
 {
     public class DatabaseConnection
     {
-        public string tableName { get; set; }
         public string password { get; set; }
         public string databaseName { get; set; }
         public string username { get; set; }
@@ -63,6 +62,41 @@ namespace DatabaseConnLibrary
 
             CloseConnection();
             return table;
+        }
+
+        public DataTable RunSelectQuery(string query)
+        {
+            OpenConnection();
+            if (connection == null)
+            {
+                return null;
+            }
+
+            DataTable table = new DataTable();
+            string SqlCommand = query;
+            Console.WriteLine(SqlCommand);
+            MySqlCommand command = new MySqlCommand(SqlCommand, GetConnection());
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            CloseConnection();
+            return table;
+        }
+
+        public void InsertInTable(string query)
+        {
+            OpenConnection();
+            if (connection == null)
+            {
+                return;
+            }
+
+            string SqlCommand = query;
+            Console.WriteLine(SqlCommand);
+            MySqlCommand command = new MySqlCommand(SqlCommand, GetConnection());
+            int rowsAffected = command.ExecuteNonQuery(); // Функция для выполнения запроса
+
+            CloseConnection();
         }
     }
 }
